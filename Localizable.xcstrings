@@ -2,237 +2,666 @@
   "sourceLanguage" : "en",
   "strings" : {
     "aboutAirQuality" : {
+      "extractionState" : "stale",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "About AirQuality5" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "AirQuality5에 관하여" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About AirQuality5"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AirQuality5에 관하여"
+          }
+        }
       }
     },
     "appTitle" : {
+      "extractionState" : "stale",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "5-Day Air Quality Forecast" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "5일 대기질 예보" } }
-      }
-    },
-    "searchPlaceholder" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "City name" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "도시 이름" } }
-      }
-    },
-    "search" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "검색" } }
-      }
-    },
-    "currentLocation" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Current Location" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "현재 위치" } }
-      }
-    },
-    "loading" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Loading air quality data..." } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "대기질 정보를 가져오는 중..." } }
-      }
-    },
-    "chooseCity" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search for a city" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "도시를 검색해 주세요" } }
-      }
-    },
-    "chooseSearchResult" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose a search result" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "검색 결과를 선택해 주세요" } }
-      }
-    },
-    "enterCityName" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Please enter a city name." } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "도시 이름을 입력해 주세요." } }
-      }
-    },
-    "noSearchResults" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No search results." } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "검색 결과가 없습니다." } }
-      }
-    },
-    "startupEmptyState" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Search for a city or use your current location." } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "도시를 검색하거나 현재 위치를 선택해 주세요." } }
-      }
-    },
-    "regionUnavailable" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Region unavailable" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "행정구역 정보 없음" } }
-      }
-    },
-    "fiveDayForecastSection" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "5-Day Forecast" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "5일 예보" } }
-      }
-    },
-    "todayUSAQI" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Today US AQI" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "오늘 US AQI" } }
-      }
-    },
-    "usAQI" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "US AQI" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "US AQI" } }
-      }
-    },
-    "fiveDayParticleTrend" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "5-Day Particulate Trend" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "5일간 미세먼지 변화" } }
-      }
-    },
-    "chartDate" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Date" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "날짜" } }
-      }
-    },
-    "chartValue" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Value" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "값" } }
-      }
-    },
-    "chartSeries" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Series" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "항목" } }
-      }
-    },
-    "close" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Close" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "닫기" } }
-      }
-    },
-    "hourlyDataUnavailable" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No hourly data is available for this date." } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 날짜의 시간별 데이터가 없습니다." } }
-      }
-    },
-    "selectedHour" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Selected Hour" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택한 시간" } }
-      }
-    },
-    "hourlyUSAQI" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hourly US AQI" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "시간별 US AQI" } }
-      }
-    },
-    "hourlyParticles" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hourly Particulate Matter" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "시간별 미세먼지 농도" } }
-      }
-    },
-    "chartTime" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Time" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "시간" } }
-      }
-    },
-    "selectedTime" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Selected Time" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택 시간" } }
-      }
-    },
-    "particleConcentration" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Concentration μg/m³" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "농도 μg/m³" } }
-      }
-    },
-    "requestURLFailed" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The request URL could not be created. Please try again later." } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "요청 주소를 만들 수 없습니다. 잠시 후 다시 시도해 주세요." } }
-      }
-    },
-    "networkFailed" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Could not load air quality data. Please check your internet connection." } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "대기질 정보를 가져오지 못했습니다. 인터넷 연결을 확인해 주세요." } }
-      }
-    },
-    "locationDenied" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Location permission is not available. Please search by city name." } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "위치 권한이 없습니다. 도시 이름을 직접 검색해 주세요." } }
-      }
-    },
-    "locationUnavailable" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Could not get your current location. Please try again later or search by city name." } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "현재 위치를 가져올 수 없습니다. 잠시 후 다시 시도하거나 도시 이름을 직접 검색해 주세요." } }
-      }
-    },
-    "unknownError" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "An unknown error occurred. Please try again later." } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요." } }
-      }
-    },
-    "aqiNoData" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Data" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "정보 없음" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5-Day Air Quality Forecast"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5일 대기질 예보"
+          }
+        }
       }
     },
     "aqiGood" : {
+      "extractionState" : "stale",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Good" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "좋음" } }
-      }
-    },
-    "aqiModerate" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Moderate" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "보통" } }
-      }
-    },
-    "aqiUnhealthySensitive" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unhealthy for Sensitive Groups" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "민감군 나쁨" } }
-      }
-    },
-    "aqiUnhealthy" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unhealthy" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "나쁨" } }
-      }
-    },
-    "aqiVeryUnhealthy" : {
-      "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Very Unhealthy" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "매우 나쁨" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "좋음"
+          }
+        }
       }
     },
     "aqiHazardous" : {
+      "extractionState" : "stale",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Hazardous" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "위험" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hazardous"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위험"
+          }
+        }
+      }
+    },
+    "aqiModerate" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moderate"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보통"
+          }
+        }
+      }
+    },
+    "aqiNoData" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Data"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "정보 없음"
+          }
+        }
+      }
+    },
+    "aqiUnhealthy" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unhealthy"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "나쁨"
+          }
+        }
+      }
+    },
+    "aqiUnhealthySensitive" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unhealthy for Sensitive Groups"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "민감군 나쁨"
+          }
+        }
+      }
+    },
+    "aqiVeryUnhealthy" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Very Unhealthy"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "매우 나쁨"
+          }
+        }
+      }
+    },
+    "chartDate" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "날짜"
+          }
+        }
+      }
+    },
+    "chartSeries" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Series"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "항목"
+          }
+        }
+      }
+    },
+    "chartTime" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시간"
+          }
+        }
+      }
+    },
+    "chartValue" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Value"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "값"
+          }
+        }
+      }
+    },
+    "chooseCity" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for a city"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도시를 검색해 주세요"
+          }
+        }
+      }
+    },
+    "chooseSearchResult" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a search result"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "검색 결과를 선택해 주세요"
+          }
+        }
+      }
+    },
+    "close" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "닫기"
+          }
+        }
+      }
+    },
+    "currentLocation" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current Location"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 위치"
+          }
+        }
+      }
+    },
+    "enterCityName" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please enter a city name."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도시 이름을 입력해 주세요."
+          }
+        }
+      }
+    },
+    "fiveDayForecastSection" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5-Day Forecast"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5일 예보"
+          }
+        }
+      }
+    },
+    "fiveDayParticleTrend" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5-Day Particulate Trend"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5일간 미세먼지 변화"
+          }
+        }
+      }
+    },
+    "hourlyDataUnavailable" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hourly data is available for this date."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 날짜의 시간별 데이터가 없습니다."
+          }
+        }
+      }
+    },
+    "hourlyParticles" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hourly Particulate Matter"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시간별 미세먼지 농도"
+          }
+        }
+      }
+    },
+    "hourlyUSAQI" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hourly US AQI"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시간별 US AQI"
+          }
+        }
+      }
+    },
+    "loading" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading air quality data..."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "대기질 정보를 가져오는 중..."
+          }
+        }
+      }
+    },
+    "locationDenied" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location permission is not available. Please search by city name."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "위치 권한이 없습니다. 도시 이름을 직접 검색해 주세요."
+          }
+        }
+      }
+    },
+    "locationUnavailable" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not get your current location. Please try again later or search by city name."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 위치를 가져올 수 없습니다. 잠시 후 다시 시도하거나 도시 이름을 직접 검색해 주세요."
+          }
+        }
+      }
+    },
+    "networkFailed" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not load air quality data. Please check your internet connection."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "대기질 정보를 가져오지 못했습니다. 인터넷 연결을 확인해 주세요."
+          }
+        }
+      }
+    },
+    "noSearchResults" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No search results."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "검색 결과가 없습니다."
+          }
+        }
+      }
+    },
+    "particleConcentration" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Concentration μg/m³"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "농도 μg/m³"
+          }
+        }
+      }
+    },
+    "regionUnavailable" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Region unavailable"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "행정구역 정보 없음"
+          }
+        }
+      }
+    },
+    "requestURLFailed" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The request URL could not be created. Please try again later."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "요청 주소를 만들 수 없습니다. 잠시 후 다시 시도해 주세요."
+          }
+        }
+      }
+    },
+    "search" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "검색"
+          }
+        }
+      }
+    },
+    "searchPlaceholder" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "City name"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도시 이름"
+          }
+        }
+      }
+    },
+    "selectedHour" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selected Hour"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택한 시간"
+          }
+        }
+      }
+    },
+    "selectedTime" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selected Time"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "선택 시간"
+          }
+        }
+      }
+    },
+    "startupEmptyState" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for a city or use your current location."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도시를 검색하거나 현재 위치를 선택해 주세요."
+          }
+        }
+      }
+    },
+    "todayUSAQI" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today US AQI"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오늘 US AQI"
+          }
+        }
+      }
+    },
+    "unknownError" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An unknown error occurred. Please try again later."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+          }
+        }
+      }
+    },
+    "usAQI" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "US AQI"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "US AQI"
+          }
+        }
       }
     }
   },

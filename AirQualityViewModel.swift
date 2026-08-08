@@ -6,7 +6,7 @@ import Observation
 @Observable
 final class AirQualityViewModel {
     var searchText = "Seoul"
-    var title = "도시를 검색해 주세요"
+    var title = AppText.chooseCity
     var forecastDays: [AirQualityDay] = []
     var searchResults: [CitySearchResult] = []
     var isLoading = false
@@ -15,12 +15,19 @@ final class AirQualityViewModel {
     private let service = AirQualityService()
     private let locationManager = LocationManager()
 
+    // 앱 시작 시 현재 위치를 먼저 시도하고, 실패하면 기본 도시 Seoul을 보여줍니다.
+    func loadInitialForecast() {
+        Task {
+            await loadForecastForStartup()
+        }
+    }
+
     // 사용자가 입력한 도시 이름으로 검색합니다.
     func searchCity() {
         let cityName = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
 
         guard !cityName.isEmpty else {
-            errorMessage = "도시 이름을 입력해 주세요."
+            errorMessage = AppText.enterCityName
             searchResults = []
             return
         }
@@ -44,6 +51,57 @@ final class AirQualityViewModel {
         }
     }
 
+    private func loadForecastForStartup() async {
+        isLoading = true
+        errorMessage = nil
+        searchResults = []
+
+        do {
+            let coordinate = try await locationManager.requestCurrentLocationIfAuthorized()
+            try await loadForecastDataForCurrentLocation(coordinate: coordinate)
+        } catch {
+            do {
+                // 시작 직후 위치를 못 받으면 잠깐 기다린 뒤 권한 요청을 포함해 한 번 더 시도합니다.
+                try? await Task.sleep(for: .seconds(3))
+                let coordinate = try await locationManager.requestCurrentLocation()
+                try await loadForecastDataForCurrentLocation(coordinate: coordinate)
+            } catch {
+                await loadSeoulFallback()
+            }
+        }
+
+        isLoading = false
+    }
+
+    private func loadForecastDataForCurrentLocation(coordinate: CLLocationCoordinate2D) async throws {
+        let days = try await service.fetchFiveDayForecast(
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude
+        )
+        let placeName = await locationManager.placeName(for: coordinate)
+        let locationName = placeName ?? AppText.currentLocation
+
+        title = locationName
+        searchText = locationName
+        forecastDays = days
+    }
+
+    private func loadSeoulFallback() async {
+        searchText = "Seoul"
+
+        do {
+            let cities = try await service.searchCities(named: "Seoul")
+            if let city = cities.first {
+                try await loadForecastData(for: city)
+            } else {
+                throw AirQualityError.noSearchResults
+            }
+        } catch {
+            forecastDays = []
+            errorMessage = friendlyMessage(for: error)
+        }
+    }
+
     private func searchCities(named cityName: String) async {
         await runLoadingTask(clearSearchResults: true) {
             let cities = try await service.searchCities(named: cityName)
@@ -56,7 +114,7 @@ final class AirQualityViewModel {
                 try await loadForecastData(for: city)
             } else {
                 // 여러 결과가 있으면 바로 예보를 가져오지 않고 사용자가 고르게 합니다.
-                title = "검색 결과를 선택해 주세요"
+                title = AppText.chooseSearchResult
                 forecastDays = []
                 searchResults = cities
             }
@@ -83,15 +141,7 @@ final class AirQualityViewModel {
     private func loadForecastForCurrentLocation() async {
         await runLoadingTask(clearSearchResults: true) {
             let coordinate = try await locationManager.requestCurrentLocation()
-            let days = try await service.fetchFiveDayForecast(
-                latitude: coordinate.latitude,
-                longitude: coordinate.longitude
-            )
-            let placeName = await locationManager.placeName(for: coordinate)
-
-            // 지명을 찾을 수 있으면 지명을 보여주고, 실패하면 기본 문구를 보여줍니다.
-            title = placeName ?? "현재 위치"
-            forecastDays = days
+            try await loadForecastDataForCurrentLocation(coordinate: coordinate)
         }
     }
 
@@ -119,6 +169,6 @@ final class AirQualityViewModel {
             return message
         }
 
-        return "알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요."
+        return AppText.unknownError
     }
 }

@@ -6,13 +6,45 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7A35823E30270578007D293A /* HourlyDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A35823D30270578007D293A /* HourlyDetailView.swift */; };
+		7A95866330271CE300D9B2DD /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7A95866230271CE300D9B2DD /* Localizable.xcstrings */; };
+		7A9C1FFE3026D0A700CD3C7F /* AirQualityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9C1FFD3026D0A700CD3C7F /* AirQualityService.swift */; };
+		7A9C20003026D0BD00CD3C7F /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9C1FFF3026D0BD00CD3C7F /* LocationManager.swift */; };
+		7A9C20023026D0D000CD3C7F /* AirQualityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9C20013026D0D000CD3C7F /* AirQualityViewModel.swift */; };
+		7A9C20063026DE1000CD3C7F /* KoreanCityDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9C20053026DE1000CD3C7F /* KoreanCityDirectory.swift */; };
+		7AAB6C7D302711530069BBA6 /* AppLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AAB6C7C302711530069BBA6 /* AppLocalization.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		7A35823D30270578007D293A /* HourlyDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyDetailView.swift; sourceTree = "<group>"; };
+		7A95866230271CE300D9B2DD /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7A9C1FEF3026CC8E00CD3C7F /* AirQuality5.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AirQuality5.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A9C1FFD3026D0A700CD3C7F /* AirQualityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityService.swift; sourceTree = "<group>"; };
+		7A9C1FFF3026D0BD00CD3C7F /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		7A9C20013026D0D000CD3C7F /* AirQualityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirQualityViewModel.swift; sourceTree = "<group>"; };
+		7A9C20053026DE1000CD3C7F /* KoreanCityDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KoreanCityDirectory.swift; sourceTree = "<group>"; };
+		7AAB6C7C302711530069BBA6 /* AppLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalization.swift; sourceTree = "<group>"; };
+		7AAB6C803027124D0069BBA6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = InfoPlist.strings; sourceTree = "<group>"; };
+		7AAB6C83302712560069BBA6 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		7A9C20043026D33C00CD3C7F /* Exceptions for "AirQuality5" folder in "AirQuality5" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 7A9C1FEE3026CC8E00CD3C7F /* AirQuality5 */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		7A9C1FF13026CC8E00CD3C7F /* AirQuality5 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				7A9C20043026D33C00CD3C7F /* Exceptions for "AirQuality5" folder in "AirQuality5" target */,
+			);
 			path = AirQuality5;
 			sourceTree = "<group>";
 		};
@@ -34,6 +66,15 @@
 			children = (
 				7A9C1FF13026CC8E00CD3C7F /* AirQuality5 */,
 				7A9C1FF03026CC8E00CD3C7F /* Products */,
+				7A9C1FFD3026D0A700CD3C7F /* AirQualityService.swift */,
+				7A9C1FFF3026D0BD00CD3C7F /* LocationManager.swift */,
+				7A9C20013026D0D000CD3C7F /* AirQualityViewModel.swift */,
+				7A9C20053026DE1000CD3C7F /* KoreanCityDirectory.swift */,
+				7A35823D30270578007D293A /* HourlyDetailView.swift */,
+				7AAB6C7C302711530069BBA6 /* AppLocalization.swift */,
+				7AAB6C7E3027124D0069BBA6 /* en.lproj */,
+				7AAB6C81302712560069BBA6 /* ko.lproj */,
+				7A95866230271CE300D9B2DD /* Localizable.xcstrings */,
 			);
 			sourceTree = "<group>";
 		};
@@ -43,6 +84,22 @@
 				7A9C1FEF3026CC8E00CD3C7F /* AirQuality5.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		7AAB6C7E3027124D0069BBA6 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				7AAB6C7F3027124D0069BBA6 /* InfoPlist.strings */,
+			);
+			path = en.lproj;
+			sourceTree = "<group>";
+		};
+		7AAB6C81302712560069BBA6 /* ko.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				7AAB6C82302712560069BBA6 /* InfoPlist.strings */,
+			);
+			path = ko.lproj;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -91,6 +148,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = 7A9C1FE63026CC8E00CD3C7F;
 			minimizedProjectReferenceProxies = 1;
@@ -109,6 +167,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A95866330271CE300D9B2DD /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,10 +178,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AAB6C7D302711530069BBA6 /* AppLocalization.swift in Sources */,
+				7A9C20003026D0BD00CD3C7F /* LocationManager.swift in Sources */,
+				7A35823E30270578007D293A /* HourlyDetailView.swift in Sources */,
+				7A9C1FFE3026D0A700CD3C7F /* AirQualityService.swift in Sources */,
+				7A9C20063026DE1000CD3C7F /* KoreanCityDirectory.swift in Sources */,
+				7A9C20023026D0D000CD3C7F /* AirQualityViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		7AAB6C7F3027124D0069BBA6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7AAB6C803027124D0069BBA6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7AAB6C82302712560069BBA6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7AAB6C83302712560069BBA6 /* ko */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		7A9C1FF83026CC8F00CD3C7F /* Debug */ = {
@@ -252,9 +336,20 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = YES;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AirQuality5/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -282,9 +377,20 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = YES;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AirQuality5/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

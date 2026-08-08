@@ -18,19 +18,18 @@ struct HourlyDetailView: View {
 
     private var defaultSelectionTime: Date {
         let calendar = Calendar.current
+        let nowComponents = calendar.dateComponents([.hour, .minute], from: Date())
+        let targetTime = calendar.date(
+            bySettingHour: nowComponents.hour ?? 12,
+            minute: nowComponents.minute ?? 0,
+            second: 0,
+            of: day.date
+        ) ?? day.date
 
-        if calendar.isDateInToday(day.date) {
-            let now = Date()
-            return day.hourlyEntries.min { first, second in
-                abs(first.time.timeIntervalSince(now)) < abs(second.time.timeIntervalSince(now))
-            }?.time ?? noonDate
-        }
-
-        return noonDate
-    }
-
-    private var noonDate: Date {
-        Calendar.current.date(bySettingHour: 12, minute: 0, second: 0, of: day.date) ?? day.date
+        // 선택한 날짜가 오늘이 아니어도 현재 시각과 같은 시간대의 데이터를 기본으로 보여줍니다.
+        return day.hourlyEntries.min { first, second in
+            abs(first.time.timeIntervalSince(targetTime)) < abs(second.time.timeIntervalSince(targetTime))
+        }?.time ?? targetTime
     }
 
     private var hourTickDates: [Date] {
@@ -111,7 +110,7 @@ struct HourlyDetailView: View {
             Button {
                 dismiss()
             } label: {
-                Label("닫기", systemImage: "xmark")
+                Label(AppText.close, systemImage: "xmark")
             }
             .keyboardShortcut(.cancelAction)
         }
@@ -123,7 +122,7 @@ struct HourlyDetailView: View {
                 .font(.system(size: 30, weight: .semibold))
                 .foregroundStyle(.secondary)
 
-            Text("이 날짜의 시간별 데이터가 없습니다.")
+            Text(AppText.hourlyDataUnavailable)
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -131,7 +130,7 @@ struct HourlyDetailView: View {
 
     private var selectedHourInfo: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Label("선택한 시간", systemImage: "clock")
+            Label(AppText.selectedHour, systemImage: "clock")
                 .font(.headline)
 
             HStack(alignment: .firstTextBaseline, spacing: 18) {
@@ -139,7 +138,7 @@ struct HourlyDetailView: View {
                     .font(.system(size: 28, weight: .bold, design: .rounded))
                     .monospacedDigit()
 
-                valueColumn(title: "US AQI", value: formattedAQI(selectedEntry?.usAQI))
+                valueColumn(title: AppText.usAQI, value: formattedAQI(selectedEntry?.usAQI))
                 valueColumn(title: "PM2.5", value: formattedParticle(selectedEntry?.pm25))
                 valueColumn(title: "PM10", value: formattedParticle(selectedEntry?.pm10))
             }
@@ -155,26 +154,26 @@ struct HourlyDetailView: View {
     }
 
     private var aqiChart: some View {
-        chartContainer(title: "시간별 US AQI", systemImage: "aqi.medium") {
+        chartContainer(title: AppText.hourlyUSAQI, systemImage: "aqi.medium") {
             Chart {
                 ForEach(day.hourlyEntries) { entry in
                     if let aqi = entry.usAQI {
                         LineMark(
-                            x: .value("시간", entry.time),
-                            y: .value("US AQI", aqi)
+                            x: .value(AppText.chartTime, entry.time),
+                            y: .value(AppText.usAQI, aqi)
                         )
                         .foregroundStyle(Color.purple)
 
                         PointMark(
-                            x: .value("시간", entry.time),
-                            y: .value("US AQI", aqi)
+                            x: .value(AppText.chartTime, entry.time),
+                            y: .value(AppText.usAQI, aqi)
                         )
                         .foregroundStyle(Color.purple)
                     }
                 }
 
                 if let selectedEntry {
-                    RuleMark(x: .value("선택 시간", selectedEntry.time))
+                    RuleMark(x: .value(AppText.selectedTime, selectedEntry.time))
                         .foregroundStyle(Color.secondary.opacity(0.55))
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
                 }
@@ -195,24 +194,24 @@ struct HourlyDetailView: View {
     }
 
     private var particleChart: some View {
-        chartContainer(title: "시간별 미세먼지 농도", systemImage: "chart.xyaxis.line") {
+        chartContainer(title: AppText.hourlyParticles, systemImage: "chart.xyaxis.line") {
             Chart {
                 ForEach(particlePoints) { point in
                     LineMark(
-                        x: .value("시간", point.time),
-                        y: .value("농도 μg/m³", point.value)
+                        x: .value(AppText.chartTime, point.time),
+                        y: .value(AppText.particleConcentration, point.value)
                     )
-                    .foregroundStyle(by: .value("항목", point.pollutant))
+                    .foregroundStyle(by: .value(AppText.chartSeries, point.pollutant))
 
                     PointMark(
-                        x: .value("시간", point.time),
-                        y: .value("농도 μg/m³", point.value)
+                        x: .value(AppText.chartTime, point.time),
+                        y: .value(AppText.particleConcentration, point.value)
                     )
-                    .foregroundStyle(by: .value("항목", point.pollutant))
+                    .foregroundStyle(by: .value(AppText.chartSeries, point.pollutant))
                 }
 
                 if let selectedEntry {
-                    RuleMark(x: .value("선택 시간", selectedEntry.time))
+                    RuleMark(x: .value(AppText.selectedTime, selectedEntry.time))
                         .foregroundStyle(Color.secondary.opacity(0.55))
                         .lineStyle(StrokeStyle(lineWidth: 1, dash: [4, 4]))
                 }
@@ -282,22 +281,22 @@ struct HourlyDetailView: View {
 
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "M월 d일"
+        formatter.locale = Locale.current
+        formatter.setLocalizedDateFormatFromTemplate("Md")
         return formatter.string(from: date)
     }
 
     private func formattedWeekday(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.locale = Locale.current
         formatter.dateFormat = "EEEE"
         return formatter.string(from: date)
     }
 
     private func formattedHour(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "HH:00"
+        formatter.locale = Locale.current
+        formatter.setLocalizedDateFormatFromTemplate("HHmm")
         return formatter.string(from: date)
     }
 

@@ -17,7 +17,7 @@ struct AirQuality5App: App {
         .defaultSize(width: 900, height: 850)
         .commands {
             CommandGroup(replacing: .appInfo) {
-                Button("About AirQuality5") {
+                Button(AppText.aboutAirQuality) {
                     showAboutPanel()
                 }
             }

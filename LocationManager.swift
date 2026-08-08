@@ -30,8 +30,13 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
 
             self.continuation = continuation
 
+            guard CLLocationManager.locationServicesEnabled() else {
+                finish(with: .failure(AirQualityError.locationUnavailable))
+                return
+            }
+
             // 위치 콜백이 오지 않는 경우에도 로딩이 무한히 이어지지 않도록 안전장치를 둡니다.
-            DispatchQueue.main.asyncAfter(deadline: .now() + 8) { [weak self] in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 20) { [weak self] in
                 self?.finish(with: .failure(AirQualityError.locationUnavailable))
             }
 
@@ -96,7 +101,11 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        finish(with: .failure(AirQualityError.locationUnavailable))
+        if let error = error as? CLError, error.code == .denied {
+            finish(with: .failure(AirQualityError.locationDenied))
+        } else {
+            finish(with: .failure(AirQualityError.locationUnavailable))
+        }
     }
 
     private func finish(with result: Result<CLLocationCoordinate2D, Error>) {

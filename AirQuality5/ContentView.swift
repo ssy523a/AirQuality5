@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var viewModel = AirQualityViewModel()
+    @State private var selectedDay: AirQualityDay?
 
     private var currentDay: AirQualityDay? {
         viewModel.forecastDays.first
@@ -13,11 +14,14 @@ struct ContentView: View {
             topArea
             content
         }
-        .frame(minWidth: 760, minHeight: 620)
+        .frame(minWidth: 760, idealWidth: 900, minHeight: 620, idealHeight: 850)
         .background(Color(nsColor: .windowBackgroundColor))
         .task {
-            // 앱이 처음 열리면 기본값인 Seoul로 한 번 검색합니다.
-            viewModel.searchCity()
+            // 앱이 처음 열리면 현재 위치를 먼저 시도하고, 실패하면 Seoul을 보여줍니다.
+            viewModel.loadInitialForecast()
+        }
+        .sheet(item: $selectedDay) { day in
+            HourlyDetailView(cityName: viewModel.title, day: day)
         }
     }
 
@@ -38,7 +42,7 @@ struct ContentView: View {
     private var header: some View {
         HStack(alignment: .bottom, spacing: 18) {
             VStack(alignment: .leading, spacing: 7) {
-                Label("5일 대기질 예보", systemImage: "aqi.medium")
+                Label(AppText.appTitle, systemImage: "aqi.medium")
                     .font(.headline)
                     .foregroundStyle(.secondary)
 
@@ -62,7 +66,7 @@ struct ContentView: View {
                 Image(systemName: "magnifyingglass")
                     .foregroundStyle(.secondary)
 
-                TextField("도시 이름", text: $viewModel.searchText)
+                TextField(AppText.searchPlaceholder, text: $viewModel.searchText)
                     .textFieldStyle(.plain)
                     .onSubmit {
                         viewModel.searchCity()
@@ -80,14 +84,14 @@ struct ContentView: View {
             Button {
                 viewModel.searchCity()
             } label: {
-                Label("검색", systemImage: "magnifyingglass")
+                Label(AppText.search, systemImage: "magnifyingglass")
             }
             .keyboardShortcut(.return, modifiers: [])
 
             Button {
                 viewModel.useCurrentLocation()
             } label: {
-                Label("현재 위치", systemImage: "location.fill")
+                Label(AppText.currentLocation, systemImage: "location.fill")
             }
         }
         .disabled(viewModel.isLoading)
@@ -102,7 +106,7 @@ struct ContentView: View {
         } else if !viewModel.searchResults.isEmpty {
             searchResultList
         } else if viewModel.forecastDays.isEmpty {
-            messageView("도시를 검색하거나 현재 위치를 선택해 주세요.", systemImage: "magnifyingglass", color: .secondary)
+            messageView(AppText.startupEmptyState, systemImage: "magnifyingglass", color: .secondary)
         } else {
             forecastList
         }
@@ -112,7 +116,7 @@ struct ContentView: View {
         VStack(spacing: 12) {
             ProgressView()
                 .controlSize(.large)
-            Text("대기질 정보를 가져오는 중...")
+            Text(AppText.loading)
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -152,11 +156,13 @@ struct ContentView: View {
     private var forecastList: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 18) {
-                sectionHeader(title: "5일 예보", systemImage: "calendar")
+                sectionHeader(title: AppText.fiveDayForecastSection, systemImage: "calendar")
 
                 LazyVGrid(columns: forecastColumns, spacing: 12) {
                     ForEach(viewModel.forecastDays) { day in
-                        AirQualityDayCard(day: day)
+                        ForecastDayButton(day: day) {
+                            selectedDay = day
+                        }
                     }
                 }
 
@@ -177,6 +183,27 @@ struct ContentView: View {
     }
 }
 
+private struct ForecastDayButton: View {
+    let day: AirQualityDay
+    let action: () -> Void
+
+    @State private var isHovering = false
+
+    var body: some View {
+        Button(action: action) {
+            AirQualityDayCard(day: day)
+                .scaleEffect(isHovering ? 1.015 : 1.0)
+                .shadow(color: .black.opacity(isHovering ? 0.10 : 0.04), radius: isHovering ? 8 : 2, y: isHovering ? 4 : 1)
+        }
+        .buttonStyle(.plain)
+        .contentShape(RoundedRectangle(cornerRadius: 8))
+        .onHover { hovering in
+            isHovering = hovering
+        }
+        .animation(.easeOut(duration: 0.12), value: isHovering)
+    }
+}
+
 private struct CurrentAQIBadge: View {
     let day: AirQualityDay
 
@@ -194,7 +221,7 @@ private struct CurrentAQIBadge: View {
                 .clipShape(Circle())
 
             VStack(alignment: .leading, spacing: 2) {
-                Text("오늘 US AQI")
+                Text(AppText.todayUSAQI)
                     .font(.caption)
                     .foregroundStyle(.secondary)
 
@@ -271,7 +298,7 @@ private struct CitySearchResultRow: View {
 
     private var detailText: String {
         let details = [city.admin1, city.country].compactMap { $0 }
-        return details.isEmpty ? "행정구역 정보 없음" : details.joined(separator: ", ")
+        return details.isEmpty ? AppText.regionUnavailable : details.joined(separator: ", ")
     }
 }
 
@@ -302,7 +329,7 @@ private struct AirQualityDayCard: View {
             }
 
             VStack(alignment: .leading, spacing: 6) {
-                Text("US AQI")
+                Text(AppText.usAQI)
                     .font(.caption)
                     .foregroundStyle(.secondary)
 
@@ -357,14 +384,14 @@ private struct AirQualityDayCard: View {
 
     private func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
-        formatter.dateFormat = "M월 d일"
+        formatter.locale = Locale.current
+        formatter.setLocalizedDateFormatFromTemplate("Md")
         return formatter.string(from: date)
     }
 
     private func formattedWeekday(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.locale = Locale.current
         formatter.dateFormat = "EEEE"
         return formatter.string(from: date)
     }
@@ -410,24 +437,24 @@ private struct AirQualityTrendChart: View {
             HStack(spacing: 8) {
                 Image(systemName: "chart.xyaxis.line")
                     .foregroundStyle(.secondary)
-                Text("5일간 미세먼지 변화")
+                Text(AppText.fiveDayParticleTrend)
                     .font(.headline)
             }
 
             Chart(chartPoints) { point in
                 LineMark(
-                    x: .value("날짜", point.date),
-                    y: .value("값", point.value)
+                    x: .value(AppText.chartDate, point.date),
+                    y: .value(AppText.chartValue, point.value)
                 )
                 .interpolationMethod(.catmullRom)
-                .foregroundStyle(by: .value("항목", point.pollutant))
-                .symbol(by: .value("항목", point.pollutant))
+                .foregroundStyle(by: .value(AppText.chartSeries, point.pollutant))
+                .symbol(by: .value(AppText.chartSeries, point.pollutant))
 
                 PointMark(
-                    x: .value("날짜", point.date),
-                    y: .value("값", point.value)
+                    x: .value(AppText.chartDate, point.date),
+                    y: .value(AppText.chartValue, point.value)
                 )
-                .foregroundStyle(by: .value("항목", point.pollutant))
+                .foregroundStyle(by: .value(AppText.chartSeries, point.pollutant))
             }
             .chartForegroundStyleScale([
                 "PM2.5": Color.blue,
@@ -472,14 +499,14 @@ private struct AirQualityTrendChart: View {
 
     private func chartDateLabel(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.locale = Locale.current
         formatter.dateFormat = "M/d"
         return formatter.string(from: date)
     }
 
     private func chartWeekdayLabel(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.locale = Locale(identifier: "ko_KR")
+        formatter.locale = Locale.current
         formatter.dateFormat = "E"
         return formatter.string(from: date)
     }
@@ -503,7 +530,7 @@ private struct AQIStatus {
 
     init(value: Int?) {
         guard let value else {
-            title = "정보 없음"
+            title = AppText.aqiStatus(value: nil)
             symbolName = "questionmark.circle"
             foregroundColor = .secondary
             backgroundColor = Color.secondary.opacity(0.12)
@@ -512,32 +539,32 @@ private struct AQIStatus {
 
         switch value {
         case 0...50:
-            title = "좋음"
+            title = AppText.aqiStatus(value: value)
             symbolName = "checkmark.circle.fill"
             foregroundColor = .green
             backgroundColor = Color.green.opacity(0.16)
         case 51...100:
-            title = "보통"
+            title = AppText.aqiStatus(value: value)
             symbolName = "minus.circle.fill"
             foregroundColor = .yellow
             backgroundColor = Color.yellow.opacity(0.18)
         case 101...150:
-            title = "민감군 나쁨"
+            title = AppText.aqiStatus(value: value)
             symbolName = "exclamationmark.circle.fill"
             foregroundColor = .orange
             backgroundColor = Color.orange.opacity(0.16)
         case 151...200:
-            title = "나쁨"
+            title = AppText.aqiStatus(value: value)
             symbolName = "exclamationmark.triangle.fill"
             foregroundColor = .red
             backgroundColor = Color.red.opacity(0.14)
         case 201...300:
-            title = "매우 나쁨"
+            title = AppText.aqiStatus(value: value)
             symbolName = "xmark.octagon.fill"
             foregroundColor = .purple
             backgroundColor = Color.purple.opacity(0.14)
         default:
-            title = "위험"
+            title = AppText.aqiStatus(value: value)
             symbolName = "xmark.octagon.fill"
             foregroundColor = .pink
             backgroundColor = Color.pink.opacity(0.14)

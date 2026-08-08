@@ -7,6 +7,19 @@ struct AirQualityDay: Identifiable {
     let averagePM25: Double?
     let averagePM10: Double?
     let maxUSAQI: Int?
+    let hourlyEntries: [HourlyAirQualityEntry]
+}
+
+// 상세 화면에서 사용할 시간별 대기질 데이터입니다.
+struct HourlyAirQualityEntry: Identifiable {
+    let time: Date
+    let pm25: Double?
+    let pm10: Double?
+    let usAQI: Int?
+
+    var id: Date {
+        time
+    }
 }
 
 // 도시 검색 결과 한 개를 표현합니다.
@@ -28,13 +41,19 @@ struct CitySearchResult: Identifiable, Decodable {
 struct AirQualityService {
     private let session: URLSession = .shared
 
-    // Open-Meteo Geocoding API로 도시 이름을 좌표로 바꿉니다.
-    func searchCity(named cityName: String) async throws -> CitySearchResult {
+    // 한국어 도시명은 로컬 목록에서 먼저 찾고, 없으면 Open-Meteo Geocoding API로 검색합니다.
+    func searchCities(named cityName: String) async throws -> [CitySearchResult] {
+        let localResults = KoreanCityDirectory.search(cityName)
+
+        if !localResults.isEmpty {
+            return localResults
+        }
+
         var components = URLComponents(string: "https://geocoding-api.open-meteo.com/v1/search")
         components?.queryItems = [
             URLQueryItem(name: "name", value: cityName),
-            URLQueryItem(name: "count", value: "1"),
-            URLQueryItem(name: "language", value: "ko"),
+            URLQueryItem(name: "count", value: "10"),
+            URLQueryItem(name: "language", value: AppText.geocodingLanguageCode),
             URLQueryItem(name: "format", value: "json")
         ]
 
@@ -46,12 +65,7 @@ struct AirQualityService {
         try validate(response: response)
 
         let decoded = try JSONDecoder().decode(GeocodingResponse.self, from: data)
-
-        guard let city = decoded.results?.first else {
-            throw AirQualityError.cityNotFound
-        }
-
-        return city
+        return decoded.results ?? []
     }
 
     // Open-Meteo Air Quality API에서 시간별 데이터를 받은 뒤 날짜별 대표값으로 묶습니다.
@@ -89,7 +103,7 @@ struct AirQualityService {
         formatter.locale = Locale(identifier: "en_US_POSIX")
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm"
 
-        var grouped: [Date: [(pm25: Double?, pm10: Double?, aqi: Int?)]] = [:]
+        var grouped: [Date: [HourlyAirQualityEntry]] = [:]
         let calendar = Calendar.current
 
         for index in hourly.time.indices {
@@ -98,20 +112,24 @@ struct AirQualityService {
             }
 
             let day = calendar.startOfDay(for: date)
-            let pm25 = hourly.pm25[safe: index] ?? nil
-            let pm10 = hourly.pm10[safe: index] ?? nil
-            let aqi = hourly.usAQI[safe: index] ?? nil
+            let entry = HourlyAirQualityEntry(
+                time: date,
+                pm25: hourly.pm25[safe: index] ?? nil,
+                pm10: hourly.pm10[safe: index] ?? nil,
+                usAQI: hourly.usAQI[safe: index] ?? nil
+            )
 
-            grouped[day, default: []].append((pm25: pm25, pm10: pm10, aqi: aqi))
+            grouped[day, default: []].append(entry)
         }
 
         return grouped.keys.sorted().map { day in
-            let values = grouped[day, default: []]
+            let entries = grouped[day, default: []].sorted { $0.time < $1.time }
             return AirQualityDay(
                 date: day,
-                averagePM25: average(values.compactMap(\.pm25)),
-                averagePM10: average(values.compactMap(\.pm10)),
-                maxUSAQI: values.compactMap(\.aqi).max()
+                averagePM25: average(entries.compactMap(\.pm25)),
+                averagePM10: average(entries.compactMap(\.pm10)),
+                maxUSAQI: entries.compactMap(\.usAQI).max(),
+                hourlyEntries: entries
             )
         }
     }
@@ -130,18 +148,22 @@ enum AirQualityError: LocalizedError {
     case invalidURL
     case networkFailed
     case cityNotFound
+    case noSearchResults
+    case locationDenied
     case locationUnavailable
 
     var errorDescription: String? {
         switch self {
         case .invalidURL:
-            return "요청 주소를 만들 수 없습니다. 잠시 후 다시 시도해 주세요."
+            return AppText.requestURLFailed
         case .networkFailed:
-            return "대기질 정보를 가져오지 못했습니다. 인터넷 연결을 확인해 주세요."
-        case .cityNotFound:
-            return "도시를 찾을 수 없습니다. 도시 이름을 다시 입력해 주세요."
+            return AppText.networkFailed
+        case .cityNotFound, .noSearchResults:
+            return AppText.noSearchResults
+        case .locationDenied:
+            return AppText.locationDenied
         case .locationUnavailable:
-            return "현재 위치를 가져올 수 없습니다. 위치 권한을 확인해 주세요."
+            return AppText.locationUnavailable
         }
     }
 }
