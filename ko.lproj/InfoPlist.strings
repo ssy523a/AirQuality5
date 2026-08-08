@@ -1,0 +1,2 @@
+"NSLocationUsageDescription" = "현재 위치의 5일간 대기질 예보를 제공하기 위해 위치 정보를 사용합니다.";
+"NSLocationWhenInUseUsageDescription" = "현재 위치의 5일간 대기질 예보를 제공하기 위해 위치 정보를 사용합니다.";
