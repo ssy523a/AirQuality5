@@ -2,7 +2,6 @@
   "sourceLanguage" : "en",
   "strings" : {
     "aboutAirQuality" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -19,7 +18,6 @@
       }
     },
     "appTitle" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -36,7 +34,6 @@
       }
     },
     "aqiGood" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -53,7 +50,6 @@
       }
     },
     "aqiHazardous" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -70,7 +66,6 @@
       }
     },
     "aqiModerate" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -87,7 +82,6 @@
       }
     },
     "aqiNoData" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -104,7 +98,6 @@
       }
     },
     "aqiUnhealthy" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -121,7 +114,6 @@
       }
     },
     "aqiUnhealthySensitive" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -138,7 +130,6 @@
       }
     },
     "aqiVeryUnhealthy" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -155,7 +146,6 @@
       }
     },
     "chartDate" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -172,7 +162,6 @@
       }
     },
     "chartSeries" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -189,7 +178,6 @@
       }
     },
     "chartTime" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -206,7 +194,6 @@
       }
     },
     "chartValue" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -223,7 +210,6 @@
       }
     },
     "chooseCity" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -240,7 +226,6 @@
       }
     },
     "chooseSearchResult" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -257,7 +242,6 @@
       }
     },
     "close" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -274,7 +258,6 @@
       }
     },
     "currentLocation" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -291,7 +274,6 @@
       }
     },
     "enterCityName" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -307,8 +289,23 @@
         }
       }
     },
+    "dataSource" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Data source: Open-Meteo Air Quality API · Air quality categories: EPA AQI"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "자료 출처: Open-Meteo 대기질 API · 대기질 구분 기준: EPA AQI"
+          }
+        }
+      }
+    },
     "fiveDayForecastSection" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -325,7 +322,6 @@
       }
     },
     "fiveDayParticleTrend" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -341,8 +337,39 @@
         }
       }
     },
+    "fiveDayPM25Forecast" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5-Day PM2.5 Forecast"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5일 PM2.5 예보"
+          }
+        }
+      }
+    },
+    "fiveDayPM10Forecast" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5-Day PM10 Forecast"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5일 PM10 예보"
+          }
+        }
+      }
+    },
     "hourlyDataUnavailable" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -359,7 +386,6 @@
       }
     },
     "hourlyParticles" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -375,8 +401,39 @@
         }
       }
     },
+    "hourlyPM25" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hourly PM2.5"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시간별 PM2.5"
+          }
+        }
+      }
+    },
+    "hourlyPM10" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hourly PM10"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시간별 PM10"
+          }
+        }
+      }
+    },
     "hourlyUSAQI" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -393,7 +450,6 @@
       }
     },
     "loading" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -410,7 +466,6 @@
       }
     },
     "locationDenied" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -427,7 +482,6 @@
       }
     },
     "locationUnavailable" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -444,7 +498,6 @@
       }
     },
     "networkFailed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -461,7 +514,6 @@
       }
     },
     "noSearchResults" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -478,7 +530,6 @@
       }
     },
     "particleConcentration" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -495,7 +546,6 @@
       }
     },
     "regionUnavailable" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -512,7 +562,6 @@
       }
     },
     "requestURLFailed" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -529,7 +578,6 @@
       }
     },
     "search" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -546,7 +594,6 @@
       }
     },
     "searchPlaceholder" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -563,7 +610,6 @@
       }
     },
     "selectedHour" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -580,7 +626,6 @@
       }
     },
     "selectedTime" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -597,7 +642,6 @@
       }
     },
     "startupEmptyState" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -614,7 +658,6 @@
       }
     },
     "todayUSAQI" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -631,7 +674,6 @@
       }
     },
     "unknownError" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -648,7 +690,6 @@
       }
     },
     "usAQI" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

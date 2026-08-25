@@ -26,8 +26,9 @@ struct ContentView: View {
     }
 
     private var topArea: some View {
-        VStack(alignment: .leading, spacing: 18) {
+        VStack(alignment: .leading, spacing: 14) {
             header
+            dataSourceLabel
             searchBar
         }
         .padding(.horizontal, 30)
@@ -58,6 +59,14 @@ struct ContentView: View {
                 CurrentAQIBadge(day: currentDay)
             }
         }
+    }
+
+    private var dataSourceLabel: some View {
+        Label(AppText.dataSource, systemImage: "cloud.sun")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .lineLimit(1)
+            .minimumScaleFactor(0.85)
     }
 
     private var searchBar: some View {
@@ -416,20 +425,38 @@ private struct AirQualityDayCard: View {
 private struct AirQualityTrendChart: View {
     let days: [AirQualityDay]
 
-    private var chartPoints: [AirQualityChartPoint] {
-        days.flatMap { day in
-            var points: [AirQualityChartPoint] = []
+    var body: some View {
+        VStack(spacing: 18) {
+            DailyPollutantTrendChart(
+                title: AppText.fiveDayPM25Forecast,
+                pollutant: .pm25,
+                points: days.compactMap { day in
+                    day.averagePM25.map { DailyPollutantPoint(date: day.date, value: $0) }
+                }
+            )
 
-            if let pm25 = day.averagePM25 {
-                points.append(AirQualityChartPoint(date: day.date, pollutant: "PM2.5", value: pm25))
-            }
-
-            if let pm10 = day.averagePM10 {
-                points.append(AirQualityChartPoint(date: day.date, pollutant: "PM10", value: pm10))
-            }
-
-            return points
+            DailyPollutantTrendChart(
+                title: AppText.fiveDayPM10Forecast,
+                pollutant: .pm10,
+                points: days.compactMap { day in
+                    day.averagePM10.map { DailyPollutantPoint(date: day.date, value: $0) }
+                }
+            )
         }
+    }
+}
+
+private struct DailyPollutantTrendChart: View {
+    let title: String
+    let pollutant: PollutantType
+    let points: [DailyPollutantPoint]
+
+    private var upperBound: Double {
+        pollutant.chartUpperBound(for: points.map(\.value))
+    }
+
+    private var visibleBands: [AirQualityBand] {
+        pollutant.visibleBands(upTo: upperBound)
     }
 
     var body: some View {
@@ -437,30 +464,55 @@ private struct AirQualityTrendChart: View {
             HStack(spacing: 8) {
                 Image(systemName: "chart.xyaxis.line")
                     .foregroundStyle(.secondary)
-                Text(AppText.fiveDayParticleTrend)
+                Text(title)
                     .font(.headline)
+
+                UnitBadge(text: "μg/m³")
             }
 
-            Chart(chartPoints) { point in
-                LineMark(
-                    x: .value(AppText.chartDate, point.date),
-                    y: .value(AppText.chartValue, point.value)
-                )
-                .interpolationMethod(.catmullRom)
-                .foregroundStyle(by: .value(AppText.chartSeries, point.pollutant))
-                .symbol(by: .value(AppText.chartSeries, point.pollutant))
+            Chart {
+                ForEach(visibleBands) { band in
+                    RectangleMark(
+                        xStart: .value(AppText.chartDate, points.first?.date ?? Date()),
+                        xEnd: .value(AppText.chartDate, points.last?.date ?? Date()),
+                        yStart: .value(AppText.chartValue, band.lower),
+                        yEnd: .value(AppText.chartValue, band.upper)
+                    )
+                    .foregroundStyle(band.color.opacity(0.11))
+                    .annotation(position: .overlay, alignment: .trailing) {
+                        Text(band.title)
+                            .font(.caption2)
+                            .fontWeight(.medium)
+                            .foregroundStyle(Color.primary.opacity(0.62))
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 2)
+                            .background(.thinMaterial.opacity(0.7))
+                            .clipShape(Capsule())
+                            .padding(.trailing, 8)
+                    }
 
-                PointMark(
-                    x: .value(AppText.chartDate, point.date),
-                    y: .value(AppText.chartValue, point.value)
-                )
-                .foregroundStyle(by: .value(AppText.chartSeries, point.pollutant))
+                    RuleMark(y: .value(AppText.chartValue, band.upper))
+                        .foregroundStyle(band.color.opacity(0.18))
+                        .lineStyle(StrokeStyle(lineWidth: 0.5))
+                }
+
+                ForEach(points) { point in
+                    LineMark(
+                        x: .value(AppText.chartDate, point.date),
+                        y: .value(pollutant.unitLabel, point.value)
+                    )
+                    .interpolationMethod(.catmullRom)
+                    .foregroundStyle(pollutant.lineColor)
+                    .lineStyle(StrokeStyle(lineWidth: pollutant.lineWidth))
+
+                    PointMark(
+                        x: .value(AppText.chartDate, point.date),
+                        y: .value(pollutant.unitLabel, point.value)
+                    )
+                    .foregroundStyle(pollutant.lineColor)
+                }
             }
-            .chartForegroundStyleScale([
-                "PM2.5": Color.blue,
-                "PM10": Color.orange
-            ])
-            .chartLegend(position: .bottom, alignment: .leading)
+            .chartYScale(domain: 0...upperBound)
             .chartXAxis {
                 AxisMarks(values: .stride(by: .day)) { value in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
@@ -478,14 +530,14 @@ private struct AirQualityTrendChart: View {
                 }
             }
             .chartYAxis {
-                AxisMarks { _ in
+                AxisMarks(position: .leading) { _ in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
                         .foregroundStyle(Color.secondary.opacity(0.22))
                     AxisTick()
                     AxisValueLabel()
                 }
             }
-            .frame(height: 250)
+            .frame(height: 220)
         }
         .padding(18)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -512,13 +564,27 @@ private struct AirQualityTrendChart: View {
     }
 }
 
-private struct AirQualityChartPoint: Identifiable {
+private struct DailyPollutantPoint: Identifiable {
     let date: Date
-    let pollutant: String
     let value: Double
 
-    var id: String {
-        "\(pollutant)-\(date.timeIntervalSince1970)"
+    var id: Date {
+        date
+    }
+}
+
+struct UnitBadge: View {
+    let text: String
+
+    var body: some View {
+        Text(text)
+            .font(.caption2)
+            .fontWeight(.semibold)
+            .foregroundStyle(.secondary)
+            .padding(.horizontal, 6)
+            .padding(.vertical, 3)
+            .background(Color.secondary.opacity(0.12))
+            .clipShape(Capsule())
     }
 }
 

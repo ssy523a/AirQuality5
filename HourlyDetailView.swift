@@ -47,20 +47,14 @@ struct HourlyDetailView: View {
         Calendar.current.date(bySettingHour: 23, minute: 0, second: 0, of: day.date) ?? day.date
     }
 
-    private var particlePoints: [HourlyParticlePoint] {
-        day.hourlyEntries.flatMap { entry in
-            var points: [HourlyParticlePoint] = []
+    private var aqiChartUpperBound: Double {
+        PollutantType.usAQI.chartUpperBound(for: day.hourlyEntries.compactMap { entry in
+            entry.usAQI.map(Double.init)
+        })
+    }
 
-            if let pm25 = entry.pm25 {
-                points.append(HourlyParticlePoint(time: entry.time, pollutant: "PM2.5", value: pm25))
-            }
-
-            if let pm10 = entry.pm10 {
-                points.append(HourlyParticlePoint(time: entry.time, pollutant: "PM10", value: pm10))
-            }
-
-            return points
-        }
+    private var visibleAQIBands: [AirQualityBand] {
+        PollutantType.usAQI.visibleBands(upTo: aqiChartUpperBound)
     }
 
     var body: some View {
@@ -74,7 +68,8 @@ struct HourlyDetailView: View {
                     VStack(alignment: .leading, spacing: 18) {
                         selectedHourInfo
                         aqiChart
-                        particleChart
+                        hourlyPollutantChart(title: AppText.hourlyPM25, pollutant: .pm25)
+                        hourlyPollutantChart(title: AppText.hourlyPM10, pollutant: .pm10)
                     }
                     .padding(.bottom, 4)
                 }
@@ -154,21 +149,36 @@ struct HourlyDetailView: View {
     }
 
     private var aqiChart: some View {
-        chartContainer(title: AppText.hourlyUSAQI, systemImage: "aqi.medium") {
+        chartContainer(title: AppText.hourlyUSAQI, unit: AppText.usAQI, systemImage: "aqi.medium") {
             Chart {
+                ForEach(visibleAQIBands) { band in
+                    // AQI 단계별 배경을 먼저 그려 선 그래프가 위에 보이도록 합니다.
+                    RectangleMark(
+                        xStart: .value(AppText.chartTime, chartStartDate),
+                        xEnd: .value(AppText.chartTime, chartEndDate),
+                        yStart: .value(AppText.usAQI, band.lower),
+                        yEnd: .value(AppText.usAQI, band.upper)
+                    )
+                    .foregroundStyle(band.color.opacity(0.12))
+                    .annotation(position: .overlay, alignment: .trailing) {
+                        bandLabel(band.title)
+                    }
+                }
+
                 ForEach(day.hourlyEntries) { entry in
                     if let aqi = entry.usAQI {
                         LineMark(
                             x: .value(AppText.chartTime, entry.time),
-                            y: .value(AppText.usAQI, aqi)
+                            y: .value(AppText.usAQI, Double(aqi))
                         )
-                        .foregroundStyle(Color.purple)
+                        .foregroundStyle(PollutantType.usAQI.lineColor)
+                        .lineStyle(StrokeStyle(lineWidth: PollutantType.usAQI.lineWidth))
 
                         PointMark(
                             x: .value(AppText.chartTime, entry.time),
-                            y: .value(AppText.usAQI, aqi)
+                            y: .value(AppText.usAQI, Double(aqi))
                         )
-                        .foregroundStyle(Color.purple)
+                        .foregroundStyle(PollutantType.usAQI.lineColor)
                     }
                 }
 
@@ -180,9 +190,10 @@ struct HourlyDetailView: View {
             }
             .chartXSelection(value: $selectedHour)
             .chartXScale(domain: chartStartDate...chartEndDate)
+            .chartYScale(domain: 0...aqiChartUpperBound)
             .chartXAxis { hourAxisMarks }
             .chartYAxis {
-                AxisMarks { _ in
+                AxisMarks(position: .leading) { _ in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
                         .foregroundStyle(Color.secondary.opacity(0.22))
                     AxisTick()
@@ -193,21 +204,47 @@ struct HourlyDetailView: View {
         }
     }
 
-    private var particleChart: some View {
-        chartContainer(title: AppText.hourlyParticles, systemImage: "chart.xyaxis.line") {
-            Chart {
-                ForEach(particlePoints) { point in
-                    LineMark(
-                        x: .value(AppText.chartTime, point.time),
-                        y: .value(AppText.particleConcentration, point.value)
-                    )
-                    .foregroundStyle(by: .value(AppText.chartSeries, point.pollutant))
+    private func hourlyPollutantChart(title: String, pollutant: PollutantType) -> some View {
+        let values = day.hourlyEntries.compactMap { entry in
+            pollutantValue(for: entry, pollutant: pollutant)
+        }
+        let upperBound = pollutant.chartUpperBound(for: values)
+        let visibleBands = pollutant.visibleBands(upTo: upperBound)
 
-                    PointMark(
-                        x: .value(AppText.chartTime, point.time),
-                        y: .value(AppText.particleConcentration, point.value)
+        return chartContainer(title: title, unit: "μg/m³", systemImage: "chart.xyaxis.line") {
+            Chart {
+                ForEach(visibleBands) { band in
+                    RectangleMark(
+                        xStart: .value(AppText.chartTime, chartStartDate),
+                        xEnd: .value(AppText.chartTime, chartEndDate),
+                        yStart: .value(AppText.particleConcentration, band.lower),
+                        yEnd: .value(AppText.particleConcentration, band.upper)
                     )
-                    .foregroundStyle(by: .value(AppText.chartSeries, point.pollutant))
+                    .foregroundStyle(band.color.opacity(0.11))
+                    .annotation(position: .overlay, alignment: .trailing) {
+                        bandLabel(band.title)
+                    }
+
+                    RuleMark(y: .value(AppText.particleConcentration, band.upper))
+                        .foregroundStyle(band.color.opacity(0.18))
+                        .lineStyle(StrokeStyle(lineWidth: 0.5))
+                }
+
+                ForEach(day.hourlyEntries) { entry in
+                    if let value = pollutantValue(for: entry, pollutant: pollutant) {
+                        LineMark(
+                            x: .value(AppText.chartTime, entry.time),
+                            y: .value(AppText.particleConcentration, value)
+                        )
+                        .foregroundStyle(pollutant.lineColor)
+                        .lineStyle(StrokeStyle(lineWidth: pollutant.lineWidth))
+
+                        PointMark(
+                            x: .value(AppText.chartTime, entry.time),
+                            y: .value(AppText.particleConcentration, value)
+                        )
+                        .foregroundStyle(pollutant.lineColor)
+                    }
                 }
 
                 if let selectedEntry {
@@ -218,21 +255,17 @@ struct HourlyDetailView: View {
             }
             .chartXSelection(value: $selectedHour)
             .chartXScale(domain: chartStartDate...chartEndDate)
-            .chartForegroundStyleScale([
-                "PM2.5": Color.blue,
-                "PM10": Color.orange
-            ])
-            .chartLegend(position: .bottom, alignment: .leading)
+            .chartYScale(domain: 0...upperBound)
             .chartXAxis { hourAxisMarks }
             .chartYAxis {
-                AxisMarks { _ in
+                AxisMarks(position: .leading) { _ in
                     AxisGridLine(stroke: StrokeStyle(lineWidth: 0.5))
                         .foregroundStyle(Color.secondary.opacity(0.22))
                     AxisTick()
                     AxisValueLabel()
                 }
             }
-            .frame(height: 210)
+            .frame(height: 190)
         }
     }
 
@@ -249,10 +282,14 @@ struct HourlyDetailView: View {
         }
     }
 
-    private func chartContainer<Content: View>(title: String, systemImage: String, @ViewBuilder content: () -> Content) -> some View {
+    private func chartContainer<Content: View>(title: String, unit: String, systemImage: String, @ViewBuilder content: () -> Content) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            Label(title, systemImage: systemImage)
-                .font(.headline)
+            HStack(spacing: 8) {
+                Label(title, systemImage: systemImage)
+                    .font(.headline)
+
+                UnitBadge(text: unit)
+            }
 
             content()
         }
@@ -264,6 +301,29 @@ struct HourlyDetailView: View {
             RoundedRectangle(cornerRadius: 8)
                 .stroke(Color(nsColor: .separatorColor).opacity(0.45), lineWidth: 1)
         )
+    }
+
+    private func bandLabel(_ title: String) -> some View {
+        Text(title)
+            .font(.caption2)
+            .fontWeight(.medium)
+            .foregroundStyle(Color.primary.opacity(0.72))
+            .lineLimit(1)
+            .padding(.horizontal, 5)
+            .padding(.vertical, 2)
+            .background(.thinMaterial.opacity(0.7))
+            .clipShape(Capsule())
+    }
+
+    private func pollutantValue(for entry: HourlyAirQualityEntry, pollutant: PollutantType) -> Double? {
+        switch pollutant {
+        case .pm25:
+            return entry.pm25
+        case .pm10:
+            return entry.pm10
+        case .usAQI:
+            return entry.usAQI.map(Double.init)
+        }
     }
 
     private func valueColumn(title: String, value: String) -> some View {
@@ -314,15 +374,5 @@ struct HourlyDetailView: View {
         }
 
         return String(format: "%.1f μg/m³", value)
-    }
-}
-
-private struct HourlyParticlePoint: Identifiable {
-    let time: Date
-    let pollutant: String
-    let value: Double
-
-    var id: String {
-        "\(pollutant)-\(time.timeIntervalSince1970)"
     }
 }
