@@ -1,0 +1,11 @@
+# Release packages
+*.dmg
+DMG-Staging/
+*.xcarchive
+*.app.dSYM
+
+# Xcode / macOS generated files
+DerivedData/
+.DS_Store
+xcuserdata/
+*.xcuserstate

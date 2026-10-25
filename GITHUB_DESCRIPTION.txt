@@ -1,0 +1,1 @@
+A native macOS app for 5-day and hourly air quality forecasts with US AQI, PM2.5, and PM10 data.
